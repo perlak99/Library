@@ -1,0 +1,129 @@
+﻿@import '_fonts.scss';
+@import '_variables.scss';
+@import '_hamburger.scss'; 
+
+$nav-height: 4rem;
+
+//GLOBALS
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
+}
+
+////////////////////////////
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-family: 'Merriweather', serif;
+    padding: 14px;
+    min-height: $nav-height !important;
+    z-index: 999;
+    background: white;
+    width: 100%;
+    border-bottom: 1px solid $secondary-color;
+    display: flex;
+}
+
+.navbar-logo {
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 20px;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+.navbar-user-button {
+    font-family: Arial;
+}
+
+.navigation {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.navbar-user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 26px;
+
+    .fa-user {
+        color: $grey;
+        font-size: 28px;
+    }
+
+    p {
+        margin: 0 10px;
+        font-size: 12px;
+    }
+}
+
+.menu {
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 1s cubic-bezier(0, 1, 0, 1);
+
+    &.is-active {
+        max-height: 1000px;
+        transition: max-height 1s ease-in-out;
+    }
+
+    ul {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 40px 26px 40px;
+        margin: 0;
+        text-align: center;
+        font-weight: 700;
+
+        li {
+            margin-bottom: 30px;
+        }
+
+        li:last-child {
+            margin: 0;
+        }
+    }
+}
+
+main {
+    padding-top: $nav-height;
+}
+
+//MEDIA QUERIES
+@media (min-width: 992px) {
+    .hamburger {
+        display:none;
+    }
+    .navigation {
+        order: 3;
+    }
+    .menu {
+        flex: 1;
+        width: auto;
+        max-height: none;
+        order: 2;
+        justify-self: stretch;
+        ul {
+            flex-direction: row;
+            justify-content: flex-start;
+            padding: 0 20px;
+            li {
+                margin: 0 20px 0 0;
+            }
+        }
+    }
+}

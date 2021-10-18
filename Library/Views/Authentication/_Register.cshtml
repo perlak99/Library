@@ -1,0 +1,13 @@
+﻿@model Library.DTO.UserRegisterDTO;
+
+<form name="register-form" class="register-form d-none">
+    <div class="mb-3">
+        <label asp-for="RegisterUsername" class="form-label">Username</label>
+        <input asp-for="RegisterUsername" type="text" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="RegisterPassword" class="form-label">Password</label>
+        <input asp-for="RegisterPassword" type="password" class="form-control" />
+    </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+</form>

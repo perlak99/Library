@@ -1,0 +1,13 @@
+﻿@model Library.DTO.UserLoginDTO;
+
+<form name="login-form" class="login-form" method="post">
+    <div class="mb-3">
+        <label asp-for="LoginUsername" class="form-label">Username</label>
+        <input asp-for="LoginUsername" type="text" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LoginPassword" class="form-label">Password</label>
+        <input asp-for="LoginPassword" type="password" class="form-control" />
+    </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+</form>

@@ -1,0 +1,64 @@
+﻿//@import '_fonts.scss';
+@import '_variables.scss';
+
+main {
+    min-height: 100vh;
+}
+
+.authentication {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid $secondary-color;
+    border-radius: 18px;
+    width: 90%;
+    margin: 0px;
+
+    button {
+        margin: 0 auto;
+        display: block;
+        background-color: $primary-color;
+        border: none;
+        font-weight: 700 !important;
+
+        &:hover {
+            background-color: $primary-color-dark;
+        }
+    }
+}
+
+.authentication-logo {
+    /*display: flex;
+    justify-content: center;*/
+    text-align: center;
+    font-size: 26px;
+    color: $primary-color;
+}
+
+.authentication-header {
+    text-align: center;
+    font-size: 26px;
+    color: $primary-color;
+}
+
+.authentication-switch {
+    font-weight: 700;
+    text-align: right;
+    .active {
+        color: $primary-color-dark;
+    }
+}
+
+.authentication-response {
+    margin-top: 16px;
+    border-radius: 18px;
+    padding: 8px;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    .authentication {
+        width: 35%;
+    }
+}

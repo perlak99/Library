@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Authentication";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/authentication.css" />
+}
+
+<div class="row authentication shadow p-4">
+    <div class="col-12">
+        <div class="authentication-logo"><i class="fas fa-book" aria-hidden="true"></i></div>
+        <h1 class="authentication-header">Log in</h1>
+        <p class="authentication-switch"><a class="login-switch active">Log in</a> | <a class="register-switch">Register</a></p>
+        <partial name="_Login" />
+        <partial name="_Register" />
+        <div class="authentication-response d-none"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/authentication.js"></script>
+}

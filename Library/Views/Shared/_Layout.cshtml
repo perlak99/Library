@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Library</title>
+    <!-- FONTAWESOME -->
+    <script src="https://kit.fontawesome.com/25875d88d5.js" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP 5 CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap-5.0.2/css/bootstrap.css" />
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="~/css/layout.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar shadow">
+        <a class="navbar-logo"><i class="fas fa-book"></i> Library</a>
+        <div class="navigation">
+            <a class="navbar-user-button" asp-controller="Authentication" asp-action="Index" ><p class="navbar-user-button-name">Log in</p><i class="fas fa-user"></i></a>
+            <div class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+        </div>
+        <div class="menu">
+            <ul class="shadow">
+
+                <li>
+                    <a href="#">
+                        Books
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Add book
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        My Reservations
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- JQUERY -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP 5 JS -->
+    <script src="~/lib/bootstrap-5.0.2/js/bootstrap.js"></script>
+    <!-- CUSTOM JS -->
+    <script src="~/js/layout.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
