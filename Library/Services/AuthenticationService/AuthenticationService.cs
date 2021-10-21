@@ -1,25 +1,35 @@
 ﻿using Library.DAL;
 using Library.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.Services
+namespace Library.Services.AuthenticationService
 {
     public class AuthenticationService : IAuthenticationService 
     {
         readonly LibraryContext _libraryContext;
+        readonly IConfiguration _configuration;
+        readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthenticationService(LibraryContext libraryContext)
+        public AuthenticationService(LibraryContext libraryContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _libraryContext = libraryContext;
+            _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ServiceResponse> Login(string username, string password)
+        public async Task<IServiceResponse> Login(string username, string password)
         {
-            ServiceResponse response = new ServiceResponse();
+            ServiceResponse<string> response = new ServiceResponse<string>();
             User user = await _libraryContext.Users.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(username.ToLower()));
             if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
@@ -28,6 +38,7 @@ namespace Library.Services
             } 
             else
             {
+                _httpContextAccessor.HttpContext.Session.SetString("Token", CreateToken(user));
                 response.Success = true;
                 response.Message = "Successfully logged in";
             }
@@ -36,7 +47,7 @@ namespace Library.Services
         }
 
 
-        public async Task<ServiceResponse> Register(string username, string password)
+        public async Task<IServiceResponse> Register(string username, string password)
         {
             ServiceResponse response = new ServiceResponse();
 
@@ -86,6 +97,33 @@ namespace Library.Services
                     return false;
             }
             return true;
+        }
+
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
+            );
+
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 
 namespace Library.Models
 {
-    public class ServiceResponse
+    public interface IServiceResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class ServiceResponse : IServiceResponse
     {
         public bool Success { get; set; }
         public string Message { get; set; }

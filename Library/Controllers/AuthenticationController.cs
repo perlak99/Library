@@ -1,10 +1,7 @@
-﻿using Library.DTO;
+﻿using Library.DTO.Authentication;
 using Library.Models;
-using Library.Services;
+using Library.Services.AuthenticationService;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.Controllers
@@ -24,21 +21,28 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserRegisterDTO userRegisterDTO)
+        public async Task<IActionResult> Register(UserRegisterDTO userRegisterDTO, string returnUrl = "/home/index")
         {
-            ServiceResponse response = await _authenticationService.Register(userRegisterDTO.RegisterUsername, userRegisterDTO.RegisterPassword);
+            ServiceResponse response = await _authenticationService.Register(userRegisterDTO.RegisterUsername, userRegisterDTO.RegisterPassword) as ServiceResponse;
             if (!response.Success)
                 return BadRequest(response);
-            return Ok(response);
+            else
+            {
+                return await Login(new UserLoginDTO { LoginUsername = userRegisterDTO.RegisterUsername, LoginPassword = userRegisterDTO.RegisterPassword }, returnUrl);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(UserLoginDTO userLoginDTO)
+        public async Task<IActionResult> Login(UserLoginDTO userLoginDTO, string returnUrl = "/home/index")
         {
-            ServiceResponse response = await _authenticationService.Login(userLoginDTO.LoginUsername, userLoginDTO.LoginPassword);
+            ServiceResponse<string> response = await _authenticationService.Login(userLoginDTO.LoginUsername, userLoginDTO.LoginPassword) as ServiceResponse<string>;
             if (!response.Success)
                 return BadRequest(response);
-            return Ok(response);
+            else
+            {
+                response.Data = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + returnUrl;
+                return Ok(response);
+            }
         }
     }
 }

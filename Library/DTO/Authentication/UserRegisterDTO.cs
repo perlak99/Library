@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.DTO
+namespace Library.DTO.Authentication
 {
     public class UserRegisterDTO
     {

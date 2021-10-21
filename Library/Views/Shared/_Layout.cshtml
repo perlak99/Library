@@ -15,9 +15,20 @@
 <body>
     <!-- NAVBAR -->
     <nav class="navbar shadow">
-        <a class="navbar-logo"><i class="fas fa-book"></i> Library</a>
+        <a class="navbar-logo" asp-controller="Home" asp-action="Index"><i class="fas fa-book"></i> Library</a>
         <div class="navigation">
-            <a class="navbar-user-button" asp-controller="Authentication" asp-action="Index" ><p class="navbar-user-button-name">Log in</p><i class="fas fa-user"></i></a>
+            <a class="navbar-user-button" asp-controller="Authentication" asp-action="Index">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p class="navbar-user-button-name">@User.Identity.Name</p>
+                    <i class="fas fa-user logged-in"></i>
+                }
+                else
+                {
+                    <p class="navbar-user-button-name">Log in</p>
+                    <i class="fas fa-user"></i>
+                }
+            </a>
             <div class="hamburger">
                 <span class="line"></span>
                 <span class="line"></span>
@@ -28,7 +39,7 @@
             <ul class="shadow">
 
                 <li>
-                    <a href="#">
+                    <a asp-controller="Books" asp-action="Index">
                         Books
                     </a>
                 </li>

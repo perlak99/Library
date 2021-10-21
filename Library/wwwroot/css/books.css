@@ -1,0 +1,7 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap");
+.btn-primary {
+  background-color: #0081a7 !important;
+  border: none !important;
+  font-weight: 700 !important; }
+  .btn-primary:hover {
+    background-color: #005f7c !important; }

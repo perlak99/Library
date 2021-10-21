@@ -1,0 +1,11 @@
+﻿@import '_variables.scss';
+.btn-primary {
+    background-color: $primary-color !important;
+    border: none !important;
+    font-weight: 700 !important;
+
+
+    &:hover {
+        background-color: $primary-color-dark !important;
+    }
+}

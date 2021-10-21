@@ -36,7 +36,7 @@ a {
   z-index: 999;
   background: white;
   width: 100%;
-  border-bottom: 1px solid #fed9b7;
+  border-bottom: 1px solid #0081a7;
   display: flex; }
 
 .navbar-logo {
@@ -62,6 +62,8 @@ a {
   .navbar-user-button .fa-user {
     color: #969696;
     font-size: 28px; }
+    .navbar-user-button .fa-user.logged-in {
+      color: #0081a7; }
   .navbar-user-button p {
     margin: 0 10px;
     font-size: 12px; }
@@ -90,7 +92,7 @@ a {
       margin: 0; }
 
 main {
-  padding-top: 4rem; }
+  padding-top: calc(4rem + 20px); }
 
 @media (min-width: 992px) {
   .hamburger {

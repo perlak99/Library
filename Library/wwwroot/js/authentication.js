@@ -1,7 +1,7 @@
 ﻿"use strict"
 
 
-//SWITCHING LOG IN/REGISTER VIEWS
+
 const loginSwitch = document.querySelector(".login-switch");
 const registerSwitch = document.querySelector(".register-switch");
 const loginForm = document.querySelector(".login-form");
@@ -9,7 +9,7 @@ const registerForm = document.querySelector(".register-form");
 const authenticationSwitch = document.querySelector(".authentication-switch");
 const authenticationHeader = document.querySelector(".authentication-header");
 
-
+//SWITCHING LOG IN/REGISTER VIEWS
 const registerloginSwitch = (e) => {
     if (e.target == loginSwitch) {
         authenticationResponse.classList.add("d-none");
@@ -48,8 +48,8 @@ const renderResponse = (requestResponse) => {
 
 $(registerForm).submit(function (e) {
     e.preventDefault();
-    var $form = $(this);
-    var $url = "/Authentication/Register";
+    const $form = $(this);
+    const $url = "/Authentication/Register";
 
     //if (!$form.valid()) return;
 
@@ -60,6 +60,7 @@ $(registerForm).submit(function (e) {
         dataType: 'JSON',
         success: function (response) {
             renderResponse(response);
+            window.location.replace(response.data);
         },
         error: function (response) {
             if (response.responseJSON)
@@ -75,8 +76,8 @@ $(registerForm).submit(function (e) {
 
 $(loginForm).submit(function (e) {
     e.preventDefault();
-    var $form = $(this);
-    var $url = "/Authentication/Login";
+    const $form = $(this);
+    const $url = "/Authentication/Login";
 
     //if (!$form.valid()) return;
 
@@ -87,10 +88,12 @@ $(loginForm).submit(function (e) {
         dataType: 'JSON',
         success: function (response) {
             renderResponse(response);
+            window.location.replace(response.data);
         },
         error: function (response) {
-            if (response.responseJSON)
+            if (response.responseJSON) {
                 renderResponse(response.responseJSON);
+            }
             else {
                 authenticationResponse.innerHTML = "Something went wrong";
                 authenticationResponse.classList.add("alert-danger");
