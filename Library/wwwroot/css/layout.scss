@@ -1,21 +1,7 @@
 ﻿@import '_fonts.scss';
 @import '_variables.scss';
 @import '_hamburger.scss'; 
-
-$nav-height: 4rem;
-
-//GLOBALS
-a {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-
-    &:hover {
-        color: black;
-    }
-}
-
-////////////////////////////
+@import '_globals.scss';
 
 .navbar {
     position: fixed;

@@ -1,4 +1,22 @@
 ﻿@import '_variables.scss';
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
+}
+
+.api-response {
+    margin-top: 16px;
+    border-radius: 18px;
+    padding: 8px;
+    text-align: center;
+}
+
 .btn-primary {
     background-color: $primary-color !important;
     border: none !important;

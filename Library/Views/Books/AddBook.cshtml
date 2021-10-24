@@ -1,0 +1,42 @@
+﻿@model Library.DTO.Books.AddBookDTO
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/books.css" />
+}
+
+<div class="container">
+    <div class="row justify-content-center text-center">
+        <div class="col-12">
+            <h1>Add Book</h1>
+        </div>
+    </div>
+    <div class="row addbook-row justify-content-center">
+        <form class="addbook-form" name="addbook-form">
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Title</label>
+                <input asp-for="Title" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Author" class="form-label">Author</label>
+                <input asp-for="Author" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ReleaseDate" class="form-label">Release date</label>
+                <input asp-for="ReleaseDate" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+            <div class="api-response d-none"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/addBook.js"></script>
+}

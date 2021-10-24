@@ -39,7 +39,6 @@ namespace Library.Services.AuthenticationService
             else
             {
                 _httpContextAccessor.HttpContext.Session.SetString("Token", CreateToken(user));
-                response.Success = true;
                 response.Message = "Successfully logged in";
             }
 
@@ -70,7 +69,6 @@ namespace Library.Services.AuthenticationService
             await _libraryContext.Users.AddAsync(user);
             await _libraryContext.SaveChangesAsync();
 
-            response.Success = true;
             response.Message = "Successfully registered user";
             return response;
         }

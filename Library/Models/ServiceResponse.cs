@@ -13,7 +13,7 @@ namespace Library.Models
 
     public class ServiceResponse : IServiceResponse
     {
-        public bool Success { get; set; }
+        public bool Success  { get; set; } = true;
         public string Message { get; set; }
     }
     public class ServiceResponse<T> : ServiceResponse

@@ -1,4 +1,17 @@
-﻿.btn-primary {
+﻿a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer; }
+  a:hover {
+    color: black; }
+
+.api-response {
+  margin-top: 16px;
+  border-radius: 18px;
+  padding: 8px;
+  text-align: center; }
+
+.btn-primary {
   background-color: #0081a7 !important;
   border: none !important;
   font-weight: 700 !important; }
@@ -38,12 +51,6 @@ main {
   text-align: right; }
   .authentication-switch .active {
     color: #0081a7; }
-
-.authentication-response {
-  margin-top: 16px;
-  border-radius: 18px;
-  padding: 8px;
-  text-align: center; }
 
 @media (min-width: 992px) {
   .authentication {
