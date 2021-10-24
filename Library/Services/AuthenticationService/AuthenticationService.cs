@@ -30,16 +30,24 @@ namespace Library.Services.AuthenticationService
         public async Task<IServiceResponse> Login(string username, string password)
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
-            User user = await _libraryContext.Users.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(username.ToLower()));
-            if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            try
             {
+                User user = await _libraryContext.Users.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(username.ToLower()));
+                if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                {
+                    response.Success = false;
+                    response.Message = "Wrong username or password";
+                } 
+                else
+                {
+                    _httpContextAccessor.HttpContext.Session.SetString("Token", CreateToken(user));
+                    response.Message = "Successfully logged in";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Something went wrong. Try again later" + ex.Message;
                 response.Success = false;
-                response.Message = "Wrong username or password";
-            } 
-            else
-            {
-                _httpContextAccessor.HttpContext.Session.SetString("Token", CreateToken(user));
-                response.Message = "Successfully logged in";
             }
 
             return response;
@@ -49,35 +57,50 @@ namespace Library.Services.AuthenticationService
         public async Task<IServiceResponse> Register(string username, string password)
         {
             ServiceResponse response = new ServiceResponse();
-
-            if (await UserExists(username))
+            try
             {
+                if (await UserExists(username))
+                {
+                    response.Success = false;
+                    response.Message = "User already exists";
+                    return response;
+                }
+
+                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                User user = new User
+                {
+                    Username = username,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                };
+
+                await _libraryContext.Users.AddAsync(user);
+                await _libraryContext.SaveChangesAsync();
+                response.Message = "Successfully registered user";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Something went wrong. Try again later" + ex.Message;
                 response.Success = false;
-                response.Message = "User already exists";
-                return response;
             }
 
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            User user = new User
-            {
-                Username = username,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            };
-
-            await _libraryContext.Users.AddAsync(user);
-            await _libraryContext.SaveChangesAsync();
-
-            response.Message = "Successfully registered user";
             return response;
         }
 
         public IServiceResponse Logout()
         {
             ServiceResponse response = new ServiceResponse();
-            _httpContextAccessor.HttpContext.Session.Remove("Token");
-            response.Message = "Successfully logged out";
+            try
+            {
+                _httpContextAccessor.HttpContext.Session.Remove("Token");
+                response.Message = "Successfully logged out";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Something went wrong. Try again later" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
 
