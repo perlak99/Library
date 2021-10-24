@@ -14,6 +14,7 @@ namespace Library.Services.BookService
         public Task<IServiceResponse> AddBook(AddBookDTO addBookDTO);
         public Task<IServiceResponse> EditBook(EditBookDTO editBookDTO);
         public Task<IServiceResponse> ReserveBook(int bookId, int userId);
+        public Task<IServiceResponse> DeleteReservation(int reservationId, int userId);
         public Task<IServiceResponse> GetBooksReservations(int userId);
     }
 }

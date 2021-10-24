@@ -82,6 +82,17 @@ namespace Library.Controllers
         }
 
         [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteReservation(int reservationId)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            ServiceResponse response = await _booksService.DeleteReservation(reservationId, Int32.Parse(identity.FindFirst(ClaimTypes.NameIdentifier).Value)) as ServiceResponse;
+            if (!response.Success)
+                return BadRequest(response);
+            return Ok(response);
+        }
+
+        [Authorize]
         public async Task<IActionResult> GetReservations()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

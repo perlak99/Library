@@ -127,6 +127,23 @@ namespace Library.Services.BookService
             return response;
         }
 
+        public async Task<IServiceResponse> DeleteReservation(int reservationId, int userId)
+        {
+            ServiceResponse response = new ServiceResponse();
+            Reservation reservation = await _libraryContext.Reservations.FirstOrDefaultAsync(r => r.Id == reservationId && r.UserId == userId);
+            if(reservation != null)
+            {
+                _libraryContext.Reservations.Remove(reservation);
+                await _libraryContext.SaveChangesAsync();
+                response.Message = "Succesfully removed reservation";
+            } else
+            {
+                response.Message = "There is no reservation from user of given id in the database";
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<IServiceResponse> GetBooksReservations(int userId)
         {
             ServiceResponse<List<ReservationDTO>> response = new ServiceResponse<List<ReservationDTO>>();

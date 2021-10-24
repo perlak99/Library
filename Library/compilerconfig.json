@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/css/books.css",
     "inputFile": "wwwroot/css/books.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home.css",
+    "inputFile": "wwwroot/css/home.scss"
   }
 ]

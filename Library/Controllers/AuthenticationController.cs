@@ -38,11 +38,16 @@ namespace Library.Controllers
             ServiceResponse<string> response = await _authenticationService.Login(userLoginDTO.LoginUsername, userLoginDTO.LoginPassword) as ServiceResponse<string>;
             if (!response.Success)
                 return BadRequest(response);
-            else
-            {
-                response.Data = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + returnUrl;
-                return Ok(response);
-            }
+            response.Data = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + returnUrl;
+            return Ok(response);
+        }
+
+        public IActionResult Logout()
+        {
+            ServiceResponse response = _authenticationService.Logout() as ServiceResponse;
+            if(!response.Success)
+                return BadRequest(response);
+            return Ok(response);
         }
     }
 }

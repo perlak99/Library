@@ -73,6 +73,14 @@ namespace Library.Services.AuthenticationService
             return response;
         }
 
+        public IServiceResponse Logout()
+        {
+            ServiceResponse response = new ServiceResponse();
+            _httpContextAccessor.HttpContext.Session.Remove("Token");
+            response.Message = "Successfully logged out";
+            return response;
+        }
+
         private async Task<bool> UserExists(string username)
         {
             return await _libraryContext.Users.AnyAsync(x => x.Username.ToLower() == username.ToLower());

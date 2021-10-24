@@ -11,7 +11,7 @@ const renderReservations = data => {
                         <p class="card-text">${b.description}</p>
                         <h6 class="card-subtitle mb-2 text-muted">Reservation date: ${b.reservationDate.substring(0, b.releaseDate.indexOf('T'))}</h6>
                         <input type="hidden" class="input-id" value="${b.reservationId}" />
-                        <button type="button" class="btn btn-primary btn-reservation">Remove</button>
+                        <button type="button" class="btn btn-primary btn-reservation-remove">Remove</button>
                         <p class="api-response"></p>
                     </div>
                 </div>
@@ -34,3 +34,32 @@ $.ajax({
             renderResponse(response.responseJSON);
     }
 });
+
+
+reservationsDiv.addEventListener("click", function (e) {
+    if (e.target.classList.contains("btn-reservation-remove")) {
+        const thisButton = e.target;
+        const id = thisButton.closest(".card-body").querySelector(".input-id").value;
+        const $urlDeleteReservation = "DeleteReservation";
+        const data = { reservationId: id };
+        const apiResponse = thisButton.closest(".card-body").querySelector(".api-response");
+        $.ajax({
+            type: 'DELETE',
+            url: $urlDeleteReservation,
+            contentType: 'application/x-www-form-urlencoded',
+            data: data,
+            success: function (response) {
+                thisButton.classList.add("disabled")
+                apiResponse.classList.add("alert-success");
+                apiResponse.innerHTML = response.message;
+            },
+            error: function (response) {
+                apiResponse.classList.add("alert-danger");
+                if (response.status = 401)
+                    apiResponse.innerHTML = "You have to be logged in to delete the reservation";
+                else
+                    apiResponse.innerHTML = response.responseJSON.message;
+            }
+        });
+    }
+})

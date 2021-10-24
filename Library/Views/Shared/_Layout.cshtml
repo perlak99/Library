@@ -17,6 +17,10 @@
     <nav class="navbar shadow">
         <a class="navbar-logo" asp-controller="Home" asp-action="Index"><i class="fas fa-book"></i> Library</a>
         <div class="navigation">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button type="button" class="btn btn-sm btn-primary btn-logout">Logout</button>
+            }
             <a class="navbar-user-button" asp-controller="Authentication" asp-action="Index">
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -37,7 +41,6 @@
         </div>
         <div class="menu">
             <ul class="shadow">
-
                 <li>
                     <a asp-controller="Books" asp-action="Index">
                         Books

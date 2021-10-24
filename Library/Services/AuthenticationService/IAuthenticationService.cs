@@ -10,5 +10,6 @@ namespace Library.Services.AuthenticationService
     {
         public Task<IServiceResponse> Register(string username, string password);
         public Task<IServiceResponse> Login(string username, string password);
+        public IServiceResponse Logout();
     }
 }
