@@ -23,23 +23,41 @@ namespace Library.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterDTO userRegisterDTO, string returnUrl = "/home/index")
         {
-            ServiceResponse response = await _authenticationService.Register(userRegisterDTO.RegisterUsername, userRegisterDTO.RegisterPassword) as ServiceResponse;
-            if (!response.Success)
-                return BadRequest(response);
+            ServiceResponse response = new ServiceResponse();
+            if (ModelState.IsValid)
+            {
+                response = await _authenticationService.Register(userRegisterDTO.RegisterUsername, userRegisterDTO.RegisterPassword) as ServiceResponse;
+                if (!response.Success)
+                    return BadRequest(response);
+                else
+                    return await Login(new UserLoginDTO { LoginUsername = userRegisterDTO.RegisterUsername, LoginPassword = userRegisterDTO.RegisterPassword }, returnUrl);
+            }
             else
             {
-                return await Login(new UserLoginDTO { LoginUsername = userRegisterDTO.RegisterUsername, LoginPassword = userRegisterDTO.RegisterPassword }, returnUrl);
+                response.Message = "Invalid data";
+                response.Success = false;
+                return BadRequest(response);
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginDTO userLoginDTO, string returnUrl = "/home/index")
         {
-            ServiceResponse<string> response = await _authenticationService.Login(userLoginDTO.LoginUsername, userLoginDTO.LoginPassword) as ServiceResponse<string>;
-            if (!response.Success)
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            if (ModelState.IsValid)
+            {
+                response = await _authenticationService.Login(userLoginDTO.LoginUsername, userLoginDTO.LoginPassword) as ServiceResponse<string>;
+                if (!response.Success)
+                    return BadRequest(response);
+                response.Data = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + returnUrl;
+                return Ok(response);
+
+            } else
+            {
+                response.Message = "Invalid data";
+                response.Success = false;
                 return BadRequest(response);
-            response.Data = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + returnUrl;
-            return Ok(response);
+            }
         }
 
         public IActionResult Logout()
